@@ -1,0 +1,61 @@
+services:
+  redis1:
+    image: redis:7.2
+    container_name: redis1
+    command: >
+      bash -c "redis-server
+      --port 7000
+      --cluster-enabled yes
+      --cluster-config-file nodes.conf
+      --cluster-node-timeout 5000
+      --appendonly yes
+      --appendfilename appendonly.aof
+      --dir /data"
+    ports:
+      - "7000:7000"
+    networks:
+      - redisnet
+    volumes:
+      - ./redis1-data:/data
+
+  redis2:
+    image: redis:7.2
+    container_name: redis2
+    command: >
+      bash -c "redis-server
+      --port 7001
+      --cluster-enabled yes
+      --cluster-config-file nodes.conf
+      --cluster-node-timeout 5000
+      --appendonly yes
+      --appendfilename appendonly.aof
+      --dir /data"
+    ports:
+      - "7001:7001"
+    networks:
+      - redisnet
+    volumes:
+      - ./redis2-data:/data
+
+  redis3:
+    image: redis:7.2
+    container_name: redis3
+    command: >
+      bash -c "redis-server
+      --port 7002
+      --cluster-enabled yes
+      --cluster-config-file nodes.conf
+      --cluster-node-timeout 5000
+      --appendonly yes
+      --appendfilename appendonly.aof
+      --dir /data"
+    ports:
+      - "7002:7002"
+    networks:
+      - redisnet
+    volumes:
+      - ./redis3-data:/data
+
+networks:
+  redisnet:
+    driver: bridge
